@@ -1,1 +1,1 @@
-rootProject.name = "kotlin-build"
+rootProject.name = "greetings-plugin"

@@ -5,10 +5,12 @@ import org.gradle.internal.impldep.org.junit.rules.TemporaryFolder
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import java.io.File
+import java.io.InputStream
 
-class PluginTest : FreeSpec({
-    val pluginClasspathResource = ClassLoader.getSystemClassLoader().getResource("plugin-classpath.txt")
-            ?: throw IllegalStateException("Did not find the plugin classpath descriptor.")
+class TestPlugin : FreeSpec({
+    val pluginClasspathResource = ClassLoader.getSystemClassLoader()
+        .getResource("plugin-classpath.txt")
+        ?: throw IllegalStateException("Did not find the plugin classpath descriptor.")
 
     val classpath = pluginClasspathResource.openStream().bufferedReader().use { reader ->
         reader.readLines().map { File(it) }
@@ -16,18 +18,31 @@ class PluginTest : FreeSpec({
 
     val greetTask = ":greet" // Colon needed!
 
-    fun projectSetup(content: String) = TemporaryFolder().apply{
+    fun projectSetup(content: String) = TemporaryFolder().apply {
         create()
         newFile("build.gradle.kts").writeText(content)
     }
 
     fun projectSetup(content: () -> String) = projectSetup(content())
 
+    fun InputStream.toFile(file: File) {
+        use { input ->
+            file.outputStream().use { input.copyTo(it) }
+        }
+    }
+
+    fun GradleRunner.withJaCoCo(): GradleRunner {
+        javaClass.classLoader.getResourceAsStream("testkit-gradle.properties")
+            .toFile(File(projectDir, "gradle.properties"))
+        return this
+    }
+
     fun testSetup(buildFile: () -> String) = projectSetup(buildFile).let { testFolder ->
         GradleRunner.create()
-                .withProjectDir(testFolder.root)
-                .withPluginClasspath(classpath)
-                .withArguments(greetTask)
+            .withProjectDir(testFolder.root)
+            .withPluginClasspath(classpath)
+            .withArguments(greetTask)
+            .withJaCoCo()
     }
 
     /*
@@ -74,5 +89,3 @@ class PluginTest : FreeSpec({
         }
     }
 })
-
-

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GreetingsPluigin.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">greetings-plugin</a> &gt; <a href="index.source.html" class="el_package">it.unibo.lss.firstplugin</a> &gt; <span class="el_source">GreetingsPluigin.kt</span></div><h1>GreetingsPluigin.kt</h1><pre class="source lang-java linenums">package it.unibo.lss.firstplugin
+import org.gradle.api.DefaultTask
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.TaskAction
+//Thanks to gradleApi() method into the build.gradle.kts file:
+
+/*Plugin*/
+<span class="nc" id="L13">open class GreetingPlugin: Plugin&lt;Project&gt; {</span>
+    //plugin apply plugins
+    override fun apply(target: Project) {
+        //Extensions are created via a Project object
+<span class="nc" id="L17">        val extension = target.extensions.create(&quot;greetings&quot;, GreetingExtension::class.java, target)</span>
+
+<span class="nc" id="L19">        target.tasks.register(&quot;greet&quot;, Greet::class.java) {</span>
+            // Set the default greeting to be the one configured in the extension
+<span class="nc" id="L21">            it.greetIntro.set(extension.defaultGreeting) //ho agganciato il provider all'altro.</span>
+            // Configuration per-task can still be changed manually by users
+<span class="nc" id="L23">        }</span>
+<span class="nc" id="L24">    }</span>
+}
+
+/*Extension -&gt; Extensions can be seen as global configuration containers*/
+<span class="nc" id="L28">open class GreetingExtension(val project: Project) {</span>
+<span class="nc" id="L29">    val defaultGreeting: Property&lt;String&gt; = project.objects.property(String::class.java)</span>
+<span class="nc" id="L30">            .apply { convention(&quot;Hello from&quot;) } // Set a conventional value. Convention -&gt; method inside property</span>
+
+    // A DSL would go there
+<span class="nc" id="L33">    fun greetWith(greeting: () -&gt; String) = defaultGreeting.set(greeting())</span>
+<span class="nc" id="L34">    operator fun String.invoke() = defaultGreeting.set(this)</span>
+}
+
+/*Task*/
+<span class="nc" id="L38">open class Greet: DefaultTask() {</span>
+    @Input
+    //var greetIntro: String = &quot;Hello from&quot;
+<span class="nc" id="L41">    var greetIntro: Property&lt;String&gt; = project.objects.property&lt;String&gt;(String::class.java) // Lazy property creation</span>
+
+    @Internal // Read-only property calculated from `greeting`
+<span class="nc" id="L44">    val message: Provider&lt;String&gt; = /*project.objects.property(String::class.java)</span>
+            .also { it.set (&quot;$greeting Gradle&quot;)}*/
+<span class="nc" id="L46">            greetIntro.map { &quot;$it Gradle&quot; }</span>
+
+    // In order to make this action executable when task is invoked, we have to use marker
+    @TaskAction
+    fun greet() {
+<span class="nc" id="L51">        println(&quot;$greetIntro Gradle&quot;)</span>
+<span class="nc" id="L52">    }</span>
+}
+
+/* build gradle
+* greetings{ this: it.unibo.lss.firstplugin.GreetingExtension
+*   //greetWith { &quot;ciao&quot; }
+*   'ciao' {}
+* }
+* //ciao{} //errore perche this non Ã¨ it.unibo.lss.firstplugin.GreetingExtension
+* */
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
