@@ -9,6 +9,8 @@ os:
   - osx
   - windows
 
+dist: focal
+
 arch:
   - amd64
   - arm64
