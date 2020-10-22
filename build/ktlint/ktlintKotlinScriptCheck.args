@@ -1,0 +1,4 @@
+--reporter=plain
+--color
+--reporter=plain,output=C:\Users\Utente\Downloads\Course-Laboratory-of-Software-Systems-master\code\automation\09-kotlin-build\build\reports\ktlint\ktlintKotlinScriptCheck\ktlintKotlinScriptCheck.txt
+"build.gradle.kts"
