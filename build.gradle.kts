@@ -95,7 +95,7 @@ gradlePlugin {
     }
 }
 
-greetings{
+greetings {
     greetWith { "Ciaone da un bellissimo" }
 }
 
