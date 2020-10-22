@@ -4,6 +4,10 @@ git:
   depth: false
   autocrlf: input
 
+os:
+  - linux
+  - osx
+
 install:
   - true
 
