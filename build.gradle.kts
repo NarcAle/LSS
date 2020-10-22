@@ -1,17 +1,21 @@
 plugins {
     // No magic: calls a method running behind the scenes the same of id("org.jetbrains.kotlin-" + "jvm")
     jacoco
-    kotlin("jvm") version "1.3.72" // version is necessary
-    id("org.danilopianini.git-sensitive-semantic-versioning") version "0.2.2"
+    kotlin("jvm")
+    id("org.danilopianini.git-sensitive-semantic-versioning")
     `java-gradle-plugin` // interno a gradle perchè ha i backtick e non ha la versione
+    `maven-publish`
+    signing
     id("com.gradle.plugin-publish") version "0.12.0"
     id("it.unibo.lss2020.greetings-plugin") version "0.1.0"
     id("pl.droidsonroids.jacoco.testkit") version "1.0.7"
     id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
     id("io.gitlab.arturbosch.detekt") version "1.14.1"
+    id("org.jetbrains.dokka") version "1.4.10"
+    id("org.danilopianini.publish-on-central") version "0.3.0"
 }
 
-group = "it.unibo.lss2020"
+group = "io.github.narcale"
 
 gitSemVer {
     version = computeGitSemVer()
@@ -19,9 +23,7 @@ gitSemVer {
 
 // Configuration block, into DLS gradle, of software sources
 repositories {
-    jcenter() {
-        content { onlyForConfigurations("detekt") }
-    }/*{
+    jcenter() /*{
         content {
             onlyForConfigurations("runtimeClasspath")
         }
@@ -37,18 +39,11 @@ dependencies {
 
     implementation(gradleApi()) // Built-in method, returns a `Dependency` to the current Gradle version
     testImplementation(gradleTestKit()) // Test implementation: available for testing compile and runtime
-    val kotestVersion = "4.1.3"
+    val kotestVersion = "_"
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion") // for kotest framework
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion") // for kotest core assertions
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion") // for kotest core jvm assertions
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.1")
-}
-
-//Detekt configuration
-detekt {
-    failFast = true // fail build on any finding
-    buildUponDefaultConfig = true // preconfigure defaults
-    config = files("$projectDir/config/detekt.yml") // Custom additional rules
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:_")
 }
 
 tasks.withType<Test> {
@@ -100,6 +95,14 @@ gradlePlugin {
     }
 }
 
+greetings{
+    greetWith { "Ciaone da un bellissimo" }
+}
+
+tasks.register<it.unibo.lss.firstplugin.Greet>("japaneseGreet") {
+    greetIntro.set("Konichiwa")
+}
+
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         allWarningsAsErrors = true
@@ -108,7 +111,39 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 tasks.jacocoTestReport {
     reports {
-        // xml.isEnabled = true // Useful for processing results automatically
+        xml.isEnabled = true // Useful for processing results automatically
         html.isEnabled = true // Useful for human inspection
+    }
+}
+
+// Detekt configuration
+detekt {
+    failFast = true // fail build on any finding
+    buildUponDefaultConfig = true // preconfigure defaults
+    // config = files("$projectDir/config/detekt.yml") // Custom additional rules
+}
+
+publishOnCentral {
+    projectDescription.set("description") // Defaults to "No description provided"
+    projectLongName.set("full project name") // Defaults to the project name
+    licenseName.set("your license") // Default "Apache License, Version 2.0"
+    licenseUrl.set("link to your license") // Default http://www.apache.org/licenses/LICENSE-2.0
+    projectUrl.set("website url") // Default "https://github.com/DanySK/${project.name}"
+    scmConnection.set("git:git@github.com:youruser/yourrepo") // Default "git:git@github.com:DanySK/${project.name}"
+}
+
+publishing {
+    publications {
+        withType<MavenPublication> {
+            pom {
+                developers {
+                    developer {
+                        name.set("Alessia Cerami")
+                        email.set("alessia.cerami@studio.unibo.it")
+                        url.set("http://www.danilopianini.org/")
+                    }
+                }
+            }
+        }
     }
 }

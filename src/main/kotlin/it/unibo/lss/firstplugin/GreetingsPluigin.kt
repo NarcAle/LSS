@@ -38,7 +38,7 @@ open class GreetingExtension(val project: Project) {
 open class Greet : DefaultTask() {
     @Input
     // var greetIntro: String = "Hello from"
-    var greetIntro: Property<String> = project.objects.property<String>(String::class.java) // Lazy property creation
+    val greetIntro: Property<String> = project.objects.property<String>(String::class.java) // Lazy property creation
 
     @Internal // Read-only property calculated from `greeting`
     val message: Provider<String> = /*project.objects.property(String::class.java)
@@ -47,7 +47,7 @@ open class Greet : DefaultTask() {
 
     // In order to make this action executable when task is invoked, we have to use marker
     @TaskAction
-    fun greet() {
+    fun doGreet() {
         println("$greetIntro Gradle")
     }
 }

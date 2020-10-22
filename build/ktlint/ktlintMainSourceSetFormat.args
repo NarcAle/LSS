@@ -1,5 +1,0 @@
---reporter=plain
---color
---reporter=plain,output=C:\Users\Utente\Downloads\Course-Laboratory-of-Software-Systems-master\code\automation\09-kotlin-build\build\reports\ktlint\ktlintMainSourceSetFormat\ktlintMainSourceSetFormat.txt
--F
-"src\\main\\kotlin\\it\\unibo\\lss\\firstplugin\\GreetingsPluigin.kt"

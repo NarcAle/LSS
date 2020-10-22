@@ -1,0 +1,1 @@
+var typeSearchIndex = [{"p":"it.unibo.lss.firstplugin","l":"GreetingPlugin","url":"it/unibo/lss/firstplugin/GreetingPlugin.html"}, {"p":"it.unibo.lss.firstplugin","l":"GreetingExtension","url":"it/unibo/lss/firstplugin/GreetingExtension.html"}, {"p":"it.unibo.lss.firstplugin","l":"Greet","url":"it/unibo/lss/firstplugin/Greet.html"}, {"l":"All classes","url":"allclasses.html"}]

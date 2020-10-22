@@ -1,1 +1,0 @@
-[90mC:\Users\Utente\Downloads\Course-Laboratory-of-Software-Systems-master\code\automation\09-kotlin-build\src\test\kotlin\[0mTestPlugin.kt[90m:[0m1[90m:1:[0m class PluginTest should be declared in a file named PluginTest.kt (cannot be auto-corrected)
