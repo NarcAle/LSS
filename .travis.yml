@@ -4,5 +4,8 @@ git:
   depth: false
   autocrlf: input
 
+install:
+  - true
+
 script:
   - ./gradlew check
