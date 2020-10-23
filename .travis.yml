@@ -42,7 +42,9 @@ env:
     - JDK="adopt-openj9@1.14"
 
 stages:
-  - check
+  - Compile
+  - Kotlin Style Check
+  - Complete Check
   - test
 
 jobs:
@@ -54,6 +56,12 @@ jobs:
     - <<: *reference_machine
       stage: test
   include:
+    - <<: *reference_machine
+      stage: Compile
+      script: ./gradlew compile --parallel
+    - <<: *reference_machine
+      stage: Kotlin Style Check
+      script: ./gradlew detekt ktlintCheck --parallel
     - <<: *reference_machine
       stage: check
       script:
