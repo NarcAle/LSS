@@ -42,6 +42,8 @@ stages:
   - Kotlin Style Check
   - Complete Check
   - test
+  - name: Delivery
+    if: repo = NarcAle/LSS
 
 _reference_machine: &reference_machine
   arch: *reference_arch
@@ -66,21 +68,24 @@ jobs:
   include:
     - <<: *reference_machine
       stage: Compile
-      script: ./gradlew compileKotlin --parallel
+      script: travis_retry ./gradlew compileKotlin --parallel
       workspaces:
-        create: *reference_workspace
-        paths:
-          - "$TRAVIS_BUILD_DIR"
-          - "$HOME/.gradle"
+        create:
+          name: *reference_workspace
+          paths:
+            - "$TRAVIS_BUILD_DIR"
+            - "$HOME/.gradle"
     - <<: *reference_machine
       stage: Kotlin Style Check
       <<: *import_workspace
-      script: ./gradlew detekt ktlintCheck --parallel
+      script: travis_retry ./gradlew detekt ktlintCheck --parallel
     - <<: *reference_machine
       stage: Complete Check
       <<: *import_workspace
       script:
         - travis_retry ./gradlew check
+    - stage: Delivery
+      script: 'true'
 
 before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS

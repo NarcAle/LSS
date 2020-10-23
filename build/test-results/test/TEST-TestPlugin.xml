@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TestPlugin" tests="7" skipped="0" failures="0" errors="0" timestamp="2020-10-23T12:30:05" hostname="LAPTOP-ER8HPF1P" time="0.783">
+<testsuite name="TestPlugin" tests="7" skipped="0" failures="0" errors="0" timestamp="2020-10-23T14:24:19" hostname="LAPTOP-ER8HPF1P" time="1.049">
   <properties/>
-  <testcase name="run the greet task" classname="TestPlugin" time="0.053"/>
-  <testcase name="print an hello message" classname="TestPlugin" time="0.015"/>
-  <testcase name="default configuration should" classname="TestPlugin" time="6.722"/>
+  <testcase name="run the greet task" classname="TestPlugin" time="0.031"/>
+  <testcase name="print an hello message" classname="TestPlugin" time="0.008"/>
+  <testcase name="default configuration should" classname="TestPlugin" time="35.06"/>
   <testcase name="run the greet task" classname="TestPlugin" time="0.003"/>
-  <testcase name="print an hello message" classname="TestPlugin" time="0.004"/>
-  <testcase name="a message in Italian" classname="TestPlugin" time="0.698"/>
-  <testcase name="running the plugin with" classname="TestPlugin" time="7.475"/>
+  <testcase name="print an hello message" classname="TestPlugin" time="0.003"/>
+  <testcase name="a message in Italian" classname="TestPlugin" time="0.997"/>
+  <testcase name="running the plugin with" classname="TestPlugin" time="36.109"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
