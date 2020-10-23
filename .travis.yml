@@ -63,7 +63,7 @@ jobs:
       stage: Kotlin Style Check
       script: ./gradlew detekt ktlintCheck --parallel
     - <<: *reference_machine
-      stage: check
+      stage: Complete Check
       script:
         - travis_retry ./gradlew check
 
