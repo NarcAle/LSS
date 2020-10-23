@@ -1,3 +1,5 @@
+if: repo != head_repo
+
 _reference_os: &reference_os # puntatore alla chiave
   linux # custom key
 
@@ -37,11 +39,15 @@ env:
     - JDK="adopt-openj9@1.8"
     - JDK="adopt-openj9@1.14"
 
+_repo_slug: &repo_slug
+              NarcAle/LSS
+
 stages:
   - Compile
   - Kotlin Style Check
   - Complete Check
-  - test
+  - name: test
+    if: 'commit_message !~ /\[\s*skip(?: |-|\.)test\s*\].*/'
   - name: Delivery
     if: repo = NarcAle/LSS
 
