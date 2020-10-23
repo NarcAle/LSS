@@ -2,15 +2,22 @@ _reference_os: &reference_os # puntatore alla chiave
   linux # custom key
 
 _reference_arch: &reference_arch
-                 amd64
+  amd64
 
 _reference_jdk: &reference_jdk
-                JDK="adopt@1.11"
+  JDK="adopt@1.11"
 
 _reference_machine: &reference_machine
                     arch: *reference_arch
                     os: *reference_os
                     env: *reference_jdk
+
+_reference_workspace: &reference_workspace
+  compiled_end
+
+_import_workspace: &import_workspace
+  workspaces:
+    use: compiled_end
 
 language: minimal
 
@@ -59,11 +66,18 @@ jobs:
     - <<: *reference_machine
       stage: Compile
       script: ./gradlew compile --parallel
+      workspaces:
+        create: *reference_workspace
+        paths:
+          - "$TRAVIS_BUILD_DIR"
+          - "$HOME/.gradle"
     - <<: *reference_machine
       stage: Kotlin Style Check
+      <<: *import_workspace
       script: ./gradlew detekt ktlintCheck --parallel
     - <<: *reference_machine
       stage: Complete Check
+      <<: *import_workspace
       script:
         - travis_retry ./gradlew check
 
