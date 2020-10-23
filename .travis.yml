@@ -1,3 +1,17 @@
+_reference_os: &reference_os # puntatore alla chiave
+  linux # custom key
+
+_reference_arch: &reference_arch
+                 amd64
+
+_reference_jdk: &reference_jdk
+                JDK="adopt@1.11"
+
+_reference_machine: &reference_machine
+                    arch: *reference_arch
+                    os: *reference_os
+                    env: *reference_jdk
+
 language: minimal
 
 git:
@@ -5,14 +19,14 @@ git:
   autocrlf: input
 
 os:
-  - linux
+  - *reference_os
   - osx
   - windows
 
 dist: focal
 
 arch:
-  - amd64
+  - *reference_arch
   - arm64
 
 env:
@@ -20,12 +34,16 @@ env:
     - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
     - GRAVIS="$HOME/gravis"
   matrix:
-    - JDK="adopt@1.11"
+    - *reference_jdk
     - JDK="adopt@1.8"
     - JDK="adopt@1.14"
     - JDK="adopt-openj9@1.11"
     - JDK="adopt-openj9@1.8"
     - JDK="adopt-openj9@1.14"
+
+stages:
+  - check
+  - test
 
 jobs:
   exclude:
@@ -33,13 +51,20 @@ jobs:
       env: JDK="adopt-openj9@1.8"
     - arch: arm64
       env: JDK="adopt-openj9@1.14"
+    - <<: *reference_machine
+      stage: test
+  include:
+    - <<: *reference_machine
+      stage: check
+      script:
+        - travis_retry ./gradlew check
 
 before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
   - source $GRAVIS/install-jdk
 
 install:
-  - true
+  - "true"
 
 script:
-  - travis_retry ./gradlew check
+  - travis_retry ./gradlew test
