@@ -40,7 +40,7 @@ env:
     - JDK="adopt-openj9@1.14"
 
 _repo_slug: &repo_slug
-              NarcAle/LSS
+  NarcAle/LSS
 
 stages:
   - Compile
