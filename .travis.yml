@@ -6,14 +6,14 @@ git:
 
 os:
   - linux
-  #- osx
+  - osx
   - windows
 
 dist: focal
 
-#arch:
-#  - amd64
-#  - arm64
+arch:
+  - amd64
+  - arm64
 
 env:
   global:
@@ -21,11 +21,18 @@ env:
     - GRAVIS="$HOME/gravis"
   matrix:
     - JDK="adopt@1.11"
-    #- JDK="adopt@1.8"
-    #- JDK="adopt@1.14"
-    #- JDK="adopt-openj9@1.11"
-    #- JDK="adopt-openj9@1.8"
-    #- JDK="adopt-openj9@1.14"
+    - JDK="adopt@1.8"
+    - JDK="adopt@1.14"
+    - JDK="adopt-openj9@1.11"
+    - JDK="adopt-openj9@1.8"
+    - JDK="adopt-openj9@1.14"
+
+jobs:
+  exclude:
+    - arch: arm64
+      env: JDK="adopt-openj9@1.8"
+    - arch: arm64
+      env: JDK="adopt-openj9@1.14"
 
 before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
