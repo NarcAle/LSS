@@ -7,18 +7,6 @@ _reference_arch: &reference_arch
 _reference_jdk: &reference_jdk
   JDK="adopt@1.11"
 
-_reference_machine: &reference_machine
-                    arch: *reference_arch
-                    os: *reference_os
-                    env: *reference_jdk
-
-_reference_workspace: &reference_workspace
-  compiled_end
-
-_import_workspace: &import_workspace
-  workspaces:
-    use: compiled_end
-
 language: minimal
 
 git:
@@ -40,6 +28,7 @@ env:
   global:
     - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
     - GRAVIS="$HOME/gravis"
+    - TERM="dumb"
   matrix:
     - *reference_jdk
     - JDK="adopt@1.8"
@@ -54,6 +43,18 @@ stages:
   - Complete Check
   - test
 
+_reference_machine: &reference_machine
+  arch: *reference_arch
+  os: *reference_os
+  env: *reference_jdk
+
+_reference_workspace: &reference_workspace
+  compiled_end
+
+_import_workspace: &import_workspace
+  workspaces:
+    use: compiled_end
+
 jobs:
   exclude:
     - arch: arm64
@@ -65,7 +66,7 @@ jobs:
   include:
     - <<: *reference_machine
       stage: Compile
-      script: ./gradlew compile --parallel
+      script: ./gradlew compileKotlin --parallel
       workspaces:
         create: *reference_workspace
         paths:
