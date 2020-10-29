@@ -93,7 +93,7 @@ jobs:
         - travis_retry ./gradlew check
     - stage: Delivery
       before_script:
-        - aes-256-cbc -K $encrypted_f778b2e1574b_key -iv $encrypted_f778b2e1574b_iv -in secrets.asc.enc -out secrets.asc -d
+        - openssl aes-256-cbc -K $encrypted_f778b2e1574b_key -iv $encrypted_f778b2e1574b_iv -in secrets.asc.enc -out secrets.asc -d
         - export ORG_GRADLE_PROJECT_signingKey=$(cat secrets.asc)
         - rm secrets.asc
       script:
