@@ -104,7 +104,11 @@ jobs:
         - git tag -a VERSION -m "Version $VERSION"
       deploy:
         - provider: releases
-          file: "build/libs/*jar
+          file: build/libs/*.jar # Files to deploy
+          edge: true # opt in to the new deploy API
+          on: # filter
+          all_branches: true
+          # tags: true # deploy only tags
 
 before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
