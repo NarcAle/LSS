@@ -39,7 +39,7 @@ env:
     - JDK="adopt-openj9@1.14"
 
 _repo_slug: &repo_slug
-              DanySK/deleteme-lss
+              NarcAle/LSS
 
 stages:
   - Compile
@@ -48,7 +48,7 @@ stages:
   - name: test
     if: 'commit_message !~ /\[\s*skip(?: |-|\.)test\s*\].*/'
   - name: Delivery
-    if: repo = DanySK/deleteme-lss
+    if: repo = NarcAle/LSS
 
 _reference_machine: &reference_machine
   arch: *reference_arch
