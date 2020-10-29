@@ -124,12 +124,12 @@ detekt {
 }
 
 publishOnCentral {
-    projectDescription.set("description") // Defaults to "No description provided"
-    projectLongName.set("full project name") // Defaults to the project name
-    licenseName.set("your license") // Default "Apache License, Version 2.0"
-    licenseUrl.set("link to your license") // Default http://www.apache.org/licenses/LICENSE-2.0
-    projectUrl.set("website url") // Default "https://github.com/DanySK/${project.name}"
-    scmConnection.set("git:git@github.com:youruser/yourrepo") // Default "git:git@github.com:DanySK/${project.name}"
+    projectDescription.set("No description provided") // Defaults to "No description provided"
+    projectLongName.set("LSS") // Defaults to the project name
+    licenseName.set("MIT License") // Default "Apache License, Version 2.0"
+    licenseUrl.set("http://opensource.org/licenses/MIT") // Default http://www.apache.org/licenses/LICENSE-2.0
+    projectUrl.set("https://github.com/NarcAle/${project.name}") // Default "https://github.com/DanySK/${project.name}"
+    scmConnection.set("git:git@github.com:NarcAle/${project.name}") // Default "git:git@github.com:DanySK/${project.name}"
 }
 
 publishing {
@@ -140,7 +140,6 @@ publishing {
                     developer {
                         name.set("Alessia Cerami")
                         email.set("alessia.cerami@studio.unibo.it")
-                        url.set("http://www.danilopianini.org/")
                     }
                 }
             }
