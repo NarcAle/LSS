@@ -154,3 +154,7 @@ if (System.getenv("CI") == "true") {
         useInMemoryPgpKeys(signingKey, signingPassword)
     }
 }
+
+tasks.register("generateVersionFile") {
+    File("${buildDir}/version").writeText(version.toString())
+}

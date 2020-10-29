@@ -98,6 +98,13 @@ jobs:
         - travis_retry ./gradlew publishMavenCentralPublicationToMavenRepository
       after_success:
         - ./gradlew publishPlugins
+      before_deploy:
+        - ./gradlew generateVersionFile
+        - export VERSION = $(cat build/version) -m
+        - git tag -a VERSION -m "Version $VERSION"
+      deploy:
+        - provider: releases
+          file: "build/libs/*jar
 
 before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
