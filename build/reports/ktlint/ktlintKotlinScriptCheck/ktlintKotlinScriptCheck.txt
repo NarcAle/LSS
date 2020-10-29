@@ -1,0 +1,1 @@
+[90mC:\Users\Utente\Desktop\Course-Laboratory-of-Software-Systems-master\code\automation\09-kotlin-build\[0mbuild.gradle.kts[90m:[0m159[90m:12:[0m Redundant curly braces

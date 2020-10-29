@@ -2,4 +2,3 @@
 --color
 --reporter=plain,output=C:\Users\Utente\Desktop\Course-Laboratory-of-Software-Systems-master\code\automation\09-kotlin-build\build\reports\ktlint\ktlintKotlinScriptCheck\ktlintKotlinScriptCheck.txt
 "build.gradle.kts"
-"settings.gradle.kts"
