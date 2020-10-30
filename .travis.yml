@@ -1,4 +1,4 @@
-if: repo != head_repo AND (tag IS blanck OR tag =~ /\d+(\.\d+)*/)
+if: repo != head_repo AND (tag IS blank OR tag =~ /\d+(\.\d+)*/)
 
 _reference_os: &reference_os
                  linux
@@ -29,7 +29,6 @@ env:
     - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
     - GRAVIS="$HOME/gravis"
     - TERM="dumb"
-    - secure: "TNAAAXsEkZHCH2mtixBl04+l992G3J+AY09mB2aInEzuS/GAJQB5Clxe6vthS941y0zce8sorbUtVauZwf0pDEgAx24BI5pBpgZI5FLUNH3SgbQrQdq7Y6PH8w+W8sLK+kdTVn2yMjhP9hxdCqOWBIN8AKnPUmWgfmAi7VPu+RIpB6qRhRTMTH51/9lTp2NjEjjFCzcF1o4dGvLPnLIe2y39gT9r8ZTV9NFmya4YBh9tMbduzVZ2tGVlnO8EnaJdiCootmNYty5SS1Ec9Z7az42sheUb02dZ4pDBjFENJH7OdhglI/YdbSYVCxe0m0q7s0brRhbhWzUpsDEpsLZLa7tY/L/L/44bmkJaWuie8bnw/gsUN6QtATO3aThbVuwuNB1KgsEMMhCPfaNeDAUibtbt2vRPv4euIq1zXNcZ3zowwKXZO7LuyMmS+WVdBLlMwMbOXGi72rQ5fv0SyWDRar8eD0BVhYGKWZtbrSSKKsG7+3T6NdXInA3tb2iCtMvbrFwTwAp+CaF0ET2PjzzKR5R0HuP+RiCZHGfHeGiy2fzqiVuRMVGXrMJ0B9lLyY/1QS5RBsGF/CLmbDTVTnslrQvAD4VEYmm5SBE3n7rxqnftrnHeUyBqcq1iK0kFSN+xGvde4RwcIMUMGxuyKHzmm5xunNjrn53Zy0qWOLnLt60="
   matrix:
     - *reference_jdk
     - JDK="adopt@1.8"
@@ -39,7 +38,7 @@ env:
     - JDK="adopt-openj9@1.14"
 
 _repo_slug: &repo_slug
-              NarcAle/LSS
+  NarcAle/LSS
 
 stages:
   - Compile
@@ -72,7 +71,6 @@ jobs:
       stage: test
   include:
     - <<: *reference_machine
-    - <<: *reference_machine
       stage: Compile
       script: travis_retry ./gradlew compileKotlin --parallel
       workspaces:
@@ -94,23 +92,21 @@ jobs:
       before_script:
         - openssl aes-256-cbc -K $encrypted_f778b2e1574b_key -iv $encrypted_f778b2e1574b_iv -in secrets.asc.enc -out secrets.asc -d
         - export ORG_GRADLE_PROJECT_signingKey=$(cat secrets.asc)
-        - rm s
-        - ecrets.asc
+        - rm secrets.asc
       script:
         - travis_retry ./gradlew publishMavenCentralPublicationToMavenRepository
       after_success:
-        - ./gradlew publishPlugins
+        - ./gradlew publishPlugins -Pgradle.publish.key=$PLUGIN_PORTAL_KEY -Pgradle.publish.secret=$PLUGIN_PORTAL_SECRET
       before_deploy:
         - ./gradlew generateVersionFile
-        - export VERSION = $(cat build/version) -m
+        - export VERSION = $(cat build/version)
         - git tag -a VERSION -m "Version $VERSION"
       deploy:
         - provider: releases
-          file: build/libs/*.jar # Files to deploy
+          file: "build/libs/*.jar" # Files to deploy
           edge: true # opt in to the new deploy API
           on: # filter
-          all_branches: true
-          # tags: true # deploy only tags
+            all_branches: true
 
 before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
