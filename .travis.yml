@@ -72,6 +72,7 @@ jobs:
       stage: test
   include:
     - <<: *reference_machine
+    - <<: *reference_machine
       stage: Compile
       script: travis_retry ./gradlew compileKotlin --parallel
       workspaces:
