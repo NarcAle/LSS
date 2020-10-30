@@ -108,7 +108,6 @@ jobs:
           on: # filter
             all_branches: true
 
-
 before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
   - source $GRAVIS/install-jdk
